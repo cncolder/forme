@@ -10,8 +10,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build",
-    "deploy": "scripts/deploy.sh"
+    "build": "vite build"
   },
   "husky": {
     "hooks": {

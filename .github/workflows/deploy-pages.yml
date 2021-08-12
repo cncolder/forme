@@ -25,7 +25,7 @@ jobs:
         run: |
           yarn build
 
-      - name: Deploy
-        run: |
-          set
-          yarn deploy
+      - uses: crazy-max/ghaction-github-pages@v2.5.0
+        with:
+          build_dir: dist
+          verbose: true
