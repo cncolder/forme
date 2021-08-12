@@ -6,10 +6,6 @@ import { BulbOutlined, CloseOutlined } from '@ant-design/icons';
 import './style.less';
 
 export interface FieldValue {
-  logo?: {
-    icon?: string;
-    bg?: string;
-  };
   title?: string;
   help?: string;
   question?: string;
@@ -19,18 +15,22 @@ export interface FieldValue {
 export interface FieldProps<V = FieldValue> {
   className?: string;
   children?: ReactNode;
+  logo?: {
+    icon?: string;
+    bg?: string;
+  };
   value: V;
   onChange?(value: V): void;
   onRemove?(): void;
 }
 
 export const Field: FC<FieldProps> = (props) => {
-  const { className, children, value, onChange, onRemove } = props;
-  const { logo, title, help, question, description } = value;
+  const { className, children, logo, value, onChange, onRemove } = props;
+  const { title, help, question, description } = value;
 
   const handleChange = useCallback(
     (kv: FieldValue) => {
-      onChange({ ...value, ...kv });
+      onChange?.({ ...value, ...kv });
     },
     [value, onChange]
   );
