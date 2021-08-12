@@ -12,4 +12,10 @@ export default defineConfig({
   },
 
   plugins: [reactRefresh()],
+
+  server: {
+    fs: {
+      allow: ['.'],
+    },
+  },
 });

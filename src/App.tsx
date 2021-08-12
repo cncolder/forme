@@ -1,6 +1,9 @@
 import React, { FC, useState, useCallback } from 'react';
 import FormRender, { useForm } from 'form-render';
 import { DragDropContext } from 'react-beautiful-dnd';
+import 'antd/dist/antd.css';
+
+import { TextInput } from './templates';
 
 export const App: FC = () => {
   const [schema, setSchema] = useState({ type: 'object', properties: {} });
@@ -12,9 +15,9 @@ export const App: FC = () => {
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <div>
-        app
         <FormRender form={form} schema={schema} />
       </div>
+      <TextInput value={{ logo: { bg: '#F2F0FF', icon: 'A' }, title: 'Short answer 1' }} />
     </DragDropContext>
   );
 };

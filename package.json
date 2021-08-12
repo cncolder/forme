@@ -25,8 +25,11 @@
     "singleQuote": true
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "antd": "^4.16.11",
+    "classnames": "^2.3.1",
     "form-render": "^1.6.1",
+    "nanoid": "^3.1.23",
     "react": "16.14.0",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "16.14.0"
