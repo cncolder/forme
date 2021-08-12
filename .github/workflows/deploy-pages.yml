@@ -1,6 +1,4 @@
-# Build and deploy to Github pages
-
-name: CI
+name: Deploy Github Pages
 
 on:
   push:
