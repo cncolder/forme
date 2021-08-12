@@ -1,0 +1,32 @@
+# Build and deploy to Github pages
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - uses: actions/checkout@v2
+
+      - name: Install
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: Build
+        run: |
+          yarn build
+
+      - name: Deploy
+        run: |
+          yarn deploy

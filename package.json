@@ -10,7 +10,8 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "deploy": "scripts/deploy.sh"
   },
   "husky": {
     "hooks": {
@@ -18,7 +19,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,jsx,ts,tsx,md,html,css}": "prettier --write"
+    "src/**/*.{js,json,jsx,ts,tsx,md,html,css}": "prettier --write"
   },
   "prettier": {
     "printWidth": 100,
