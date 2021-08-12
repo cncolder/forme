@@ -27,4 +27,5 @@ jobs:
 
       - name: Deploy
         run: |
+          set
           yarn deploy
