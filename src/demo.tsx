@@ -1,11 +1,12 @@
 import React, { FC, useState, useCallback } from 'react';
+import ReactDOM from 'react-dom';
 import FormRender, { useForm } from 'form-render';
 import { DragDropContext } from 'react-beautiful-dnd';
 import 'antd/dist/antd.css';
 
 import { TextInput } from './templates';
 
-export const App: FC = () => {
+const App: FC = () => {
   const [schema, setSchema] = useState({ type: 'object', properties: {} });
 
   const form = useForm();
@@ -21,3 +22,5 @@ export const App: FC = () => {
     </DragDropContext>
   );
 };
+
+ReactDOM.render(<App />, document.getElementById('root'));
