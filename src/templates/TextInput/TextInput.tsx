@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Input } from 'antd';
 
 import { Field, FieldProps, FieldValue } from '../Field';
@@ -10,11 +10,25 @@ interface TextInputValue extends FieldValue {
 
 export interface TextInputProps extends FieldProps<TextInputValue> {}
 
-export function TextInput(props: TextInputProps) {
-  const { className, value, onChange } = props;
+export const TextInput: FC<TextInputProps> = (props) => {
+  const {
+    className,
+    name = 'Short answer',
+    logo = { bg: '#F2F0FF', icon: 'A' },
+    value,
+    onChange,
+    ...fieldProps
+  } = props;
 
   return (
-    <Field className={className} logo={TextInput.logo} value={value} onChange={onChange}>
+    <Field
+      className={className}
+      name={name}
+      logo={logo}
+      value={value}
+      onChange={onChange}
+      {...fieldProps}
+    >
       <div className="fm-t-text-input">
         <div className="fm-t-text-input-label">Text field label</div>
         <Input
@@ -24,7 +38,4 @@ export function TextInput(props: TextInputProps) {
       </div>
     </Field>
   );
-}
-
-TextInput.label = 'Short answer';
-TextInput.logo = { bg: '#F2F0FF', icon: 'A' };
+};

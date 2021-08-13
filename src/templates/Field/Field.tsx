@@ -15,17 +15,19 @@ export interface FieldValue {
 export interface FieldProps<V = FieldValue> {
   className?: string;
   children?: ReactNode;
+  mode?: 'full' | 'item';
   logo?: {
     icon?: string;
     bg?: string;
   };
-  value: V;
+  name?: string;
+  value?: V;
   onChange?(value: V): void;
   onRemove?(): void;
 }
 
 export const Field: FC<FieldProps> = (props) => {
-  const { className, children, logo, value, onChange, onRemove } = props;
+  const { className, children, mode, logo, name, value = {}, onChange, onRemove } = props;
   const { title, help, question, description } = value;
 
   const handleChange = useCallback(
@@ -34,6 +36,22 @@ export const Field: FC<FieldProps> = (props) => {
     },
     [value, onChange]
   );
+
+  if (mode === 'item') {
+    return (
+      <div className={classNames('fm-t-field', 'fm-t-field--item', className)}>
+        <Avatar
+          className="fm-t-field-logo"
+          style={{ color: 'black', backgroundColor: logo.bg }}
+          shape="square"
+          size="large"
+        >
+          {logo.icon}
+        </Avatar>
+        <div>{name}</div>
+      </div>
+    );
+  }
 
   return (
     <div className={classNames('fm-t-field', className)}>
