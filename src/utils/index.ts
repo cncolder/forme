@@ -1,1 +1,1 @@
-export * from './uniqId';
+export * from './uid';

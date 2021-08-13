@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { DragDropContext, DragDropContextProps, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Layout, Tabs } from 'antd';
 
-import { uniqId } from '../../utils';
+import { uid } from '../../utils';
 import * as templates from '../../templates';
 import { FormRender, useForm } from '../FormRender';
 import './style.less';
@@ -24,25 +24,49 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
   const handleDragEnd = useCallback<DragDropContextProps['onDragEnd']>(
     (e) => {
       console.log(e);
-      /** Drag form components and drop to form builder */
+      /** Drag form components and drop to form builder fields */
       if (e.source?.droppableId === 'templates' && e.destination?.droppableId === 'fields') {
-        const items = [...schema.items];
-        items.splice(e.destination.index, 0, {
-          id: uniqId(),
-          type: 'string',
-          widget: e.draggableId,
-        });
-        onChange?.({ ...schema, items });
+        const entries = Object.entries<any>(schema.properties);
+        entries.splice(e.destination.index, 0, [
+          uid(),
+          {
+            type: 'string',
+            widget: e.draggableId,
+          },
+        ]);
+        const newSchema = { ...schema, properties: Object.fromEntries(entries) };
+        console.log('new schema', newSchema);
+        onChange?.(newSchema);
+      }
+
+      /** Drag from builder fields to itself */
+      if (e.source?.droppableId === 'fields' && e.destination?.droppableId === 'fields') {
+        const entries = Object.entries<any>(schema.properties);
+        entries.splice(e.destination.index, 0, ...entries.splice(e.source.index, 1));
+        const newSchema = { ...schema, properties: Object.fromEntries(entries) };
+        console.log('new schema', newSchema);
+        onChange?.(newSchema);
       }
     },
     [schema, onChange]
   );
 
+  const handleFieldChange = useCallback(
+    (key: string, property: any) => {
+      const newSchema = { ...schema };
+      newSchema.properties[key] = { ...newSchema.properties[key], ...property };
+      console.log('new schema', newSchema);
+      onChange?.(newSchema);
+    },
+    [schema, onChange]
+  );
+
   const handleFieldRemove = useCallback(
-    (index: number) => {
-      const items = [...schema.items];
-      items.splice(index, 1);
-      onChange?.({ ...schema, items });
+    (key: string) => {
+      const newSchema = { ...schema };
+      delete newSchema.properties[key];
+      console.log('new schema', newSchema);
+      onChange?.(newSchema);
     },
     [schema, onChange]
   );
@@ -70,19 +94,24 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
                       className="fm-b-fields-container"
                       {...dropProvided.droppableProps}
                     >
-                      {schema.items.map(({ id, widget, ...value }, index) => {
+                      {Object.entries<any>(schema.properties).map(([key, property], index) => {
+                        const { type, widget, ...value } = property;
                         const Template = templates[widget];
                         return (
-                          <Draggable key={id} draggableId={id} index={index}>
+                          <Draggable key={key} draggableId={key} index={index}>
                             {(dragProvided) => (
                               <div
-                                key={id}
+                                key={key}
                                 className="fm-b-field"
                                 ref={dragProvided.innerRef}
                                 {...dragProvided.draggableProps}
                                 {...dragProvided.dragHandleProps}
                               >
-                                <Template value={value} onRemove={() => handleFieldRemove(index)} />
+                                <Template
+                                  value={value}
+                                  onChange={(property) => handleFieldChange(key, property)}
+                                  onRemove={() => handleFieldRemove(key)}
+                                />
                               </div>
                             )}
                           </Draggable>
@@ -92,7 +121,12 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
                   )}
                 </Droppable>
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Preview" key="2">
+              <Tabs.TabPane tab="Schema" key="2">
+                <pre style={{ padding: 8, height: '100%', backgroundColor: 'white' }}>
+                  <code>{JSON.stringify(schema, null, 2)}</code>
+                </pre>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="Preview" key="3">
                 <FormRender form={form} schema={schema} />
               </Tabs.TabPane>
             </Tabs>
