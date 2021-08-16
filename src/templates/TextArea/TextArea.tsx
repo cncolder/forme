@@ -1,21 +1,21 @@
 import React, { FC } from 'react';
 import { Input } from 'antd';
-import { FontColorsOutlined } from '@ant-design/icons';
+import { AlignLeftOutlined } from '@ant-design/icons';
 
 import { Field, FieldProps, FieldValue } from '../Field';
 import './style.less';
 
-interface TextInputValue extends FieldValue {
+interface TextAreaValue extends FieldValue {
   label?: string;
 }
 
-export interface TextInputProps extends FieldProps<TextInputValue> {}
+export interface TextAreaProps extends FieldProps<TextAreaValue> {}
 
-export const TextInput: FC<TextInputProps> = (props) => {
+export const TextArea: FC<TextAreaProps> = (props) => {
   const {
     className,
-    name = 'Short answer',
-    logo = { bg: '#F2F0FF', icon: <FontColorsOutlined /> },
+    name = 'Long answer',
+    logo = { bg: '#F2F0FF', icon: <AlignLeftOutlined /> },
     value,
     onChange,
     ...fieldProps
@@ -30,8 +30,8 @@ export const TextInput: FC<TextInputProps> = (props) => {
       onChange={onChange}
       {...fieldProps}
     >
-      <div className="fm-t-text-input">
-        <div className="fm-t-text-input-label">Text field label</div>
+      <div className="fm-t-text-area">
+        <div className="fm-t-text-area-label">Text field label</div>
         <Input
           value={value?.label}
           onChange={(e) => onChange?.({ ...value, label: e.target.value })}

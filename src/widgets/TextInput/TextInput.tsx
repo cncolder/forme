@@ -1,10 +1,23 @@
 import React, { FC } from 'react';
-import { Input, InputProps } from 'antd';
+import { Input } from 'antd';
 
-export interface TextInputProps extends InputProps {}
+import { TextInputField } from '../../types';
+import { Field } from '../Field';
+import './style.less';
+
+export interface TextInputProps extends TextInputField {
+  className?: string;
+}
 
 export const TextInput: FC<TextInputProps> = (props: TextInputProps) => {
-  console.log('TextInput render', props);
+  const { className, question, description, help, label, ...rest } = props;
 
-  return <Input {...props} />;
+  return (
+    <Field className={className} question={question} description={description} help={help}>
+      <div className="fm-w-text-input">
+        <div className="fm-w-text-input-label">{label}</div>
+        <Input {...rest} />
+      </div>
+    </Field>
+  );
 };

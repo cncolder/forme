@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useCallback } from 'react';
 import classNames from 'classnames';
-import { Avatar, Button, Input } from 'antd';
-import { BulbOutlined, CloseOutlined } from '@ant-design/icons';
+import { Avatar, Button, Input, Checkbox, Upload, Modal } from 'antd';
+import { BulbOutlined, CloseOutlined, FileImageOutlined } from '@ant-design/icons';
 
 import './style.less';
 
@@ -17,7 +17,7 @@ export interface FieldProps<V = FieldValue> {
   children?: ReactNode;
   mode?: 'full' | 'item';
   logo?: {
-    icon?: string;
+    icon?: string | ReactNode;
     bg?: string;
   };
   name?: string;
@@ -28,7 +28,40 @@ export interface FieldProps<V = FieldValue> {
 
 export const Field: FC<FieldProps> = (props) => {
   const { className, children, mode, logo, name, value = {}, onChange, onRemove } = props;
-  const { title, help, question, description } = value;
+  const { title, question, description } = value;
+
+  const [modal, contextHolder] = Modal.useModal();
+
+  const handleEditHelpClick = useCallback(() => {
+    let modalValue = { ...value };
+    modal.confirm({
+      title: 'Edit help content',
+      icon: false,
+      closable: true,
+      maskClosable: true,
+      okText: 'Save',
+      cancelButtonProps: { style: { display: 'none' } },
+      content: (
+        <div>
+          <div>Help text</div>
+          <Input.TextArea
+            ref={(node) => node?.focus()}
+            rows={4}
+            defaultValue={modalValue.help}
+            onChange={(e) => (modalValue.help = e.target.value)}
+          ></Input.TextArea>
+          <Upload>
+            <Button icon={<FileImageOutlined />}>Upload image</Button>
+          </Upload>
+          <Checkbox>Only show help content to Glide Pro users</Checkbox>
+        </div>
+      ),
+      onOk: (close) => {
+        onChange?.(modalValue);
+        close();
+      },
+    });
+  }, [modal, value, onChange]);
 
   const handleChange = useCallback(
     (kv: FieldValue) => {
@@ -45,9 +78,8 @@ export const Field: FC<FieldProps> = (props) => {
           style={{ color: 'black', backgroundColor: logo.bg }}
           shape="square"
           size="large"
-        >
-          {logo.icon}
-        </Avatar>
+          icon={logo.icon}
+        />
         <div>{name}</div>
       </div>
     );
@@ -61,11 +93,10 @@ export const Field: FC<FieldProps> = (props) => {
           style={{ color: 'black', backgroundColor: logo.bg }}
           shape="square"
           size="large"
-        >
-          {logo.icon}
-        </Avatar>
+          icon={logo.icon}
+        />
         <div className="fm-t-field-title">{title}</div>
-        <Button type="text" icon={<BulbOutlined />}>
+        <Button type="text" icon={<BulbOutlined />} onClick={handleEditHelpClick}>
           Edit help content
         </Button>
         <Button type="text" icon={<CloseOutlined />} onClick={onRemove}>
@@ -90,6 +121,8 @@ export const Field: FC<FieldProps> = (props) => {
           {children}
         </div>
       </div>
+
+      {contextHolder}
     </div>
   );
 };

@@ -1,23 +1,26 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
+import { useSessionStorage } from 'react-use';
 import 'antd/dist/antd.css';
 
 import { uid } from './utils';
 import { FormBuilder } from './components';
+import { Schema } from './types';
 import './demo.less';
 
-const DEFAULT_SCHEMA = {
-  type: 'object',
-  properties: {
-    [uid()]: {
+const DEFAULT_SCHEMA: Schema = {
+  formId: '1',
+  items: [
+    {
+      id: uid(),
       type: 'string',
       widget: 'TextInput',
     },
-  },
+  ],
 };
 
 const App: FC = () => {
-  const [schema, setSchema] = useState(() => DEFAULT_SCHEMA);
+  const [schema, setSchema] = useSessionStorage('forme-schema', DEFAULT_SCHEMA);
 
   return <FormBuilder schema={schema} onChange={setSchema} />;
 };

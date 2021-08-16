@@ -5,13 +5,14 @@ import { Layout, Tabs } from 'antd';
 
 import { uid } from '../../utils';
 import * as templates from '../../templates';
-import { FormRender, useForm } from '../FormRender';
+import * as widgets from '../../widgets';
+import { Schema } from '../../types';
 import './style.less';
 
 export interface FormBuilderProps {
   className?: string;
-  schema: any;
-  onChange(schema: any): void;
+  schema: Schema;
+  onChange(schema: Schema): void;
 }
 
 export const FormBuilder: FC<FormBuilderProps> = (props) => {
@@ -19,31 +20,27 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
 
   const [tabActiveKey, setTabActiveKey] = useState('1');
 
-  const form = useForm();
-
   const handleDragEnd = useCallback<DragDropContextProps['onDragEnd']>(
     (e) => {
       console.log(e);
       /** Drag form components and drop to form builder fields */
       if (e.source?.droppableId === 'templates' && e.destination?.droppableId === 'fields') {
-        const entries = Object.entries<any>(schema.properties);
-        entries.splice(e.destination.index, 0, [
-          uid(),
-          {
-            type: 'string',
-            widget: e.draggableId,
-          },
-        ]);
-        const newSchema = { ...schema, properties: Object.fromEntries(entries) };
+        const items = [...schema.items];
+        items.splice(e.destination.index, 0, {
+          id: uid(),
+          type: 'string',
+          widget: e.draggableId,
+        });
+        const newSchema = { ...schema, items };
         console.log('new schema', newSchema);
         onChange?.(newSchema);
       }
 
       /** Drag from builder fields to itself */
       if (e.source?.droppableId === 'fields' && e.destination?.droppableId === 'fields') {
-        const entries = Object.entries<any>(schema.properties);
-        entries.splice(e.destination.index, 0, ...entries.splice(e.source.index, 1));
-        const newSchema = { ...schema, properties: Object.fromEntries(entries) };
+        const items = [...schema.items];
+        items.splice(e.destination.index, 0, ...items.splice(e.source.index, 1));
+        const newSchema = { ...schema, items };
         console.log('new schema', newSchema);
         onChange?.(newSchema);
       }
@@ -52,9 +49,9 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
   );
 
   const handleFieldChange = useCallback(
-    (key: string, property: any) => {
+    (index: number, value: any) => {
       const newSchema = { ...schema };
-      newSchema.properties[key] = { ...newSchema.properties[key], ...property };
+      newSchema.items[index] = { ...newSchema.items[index], ...value };
       console.log('new schema', newSchema);
       onChange?.(newSchema);
     },
@@ -62,9 +59,9 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
   );
 
   const handleFieldRemove = useCallback(
-    (key: string) => {
+    (index: number) => {
       const newSchema = { ...schema };
-      delete newSchema.properties[key];
+      delete newSchema.items[index];
       console.log('new schema', newSchema);
       onChange?.(newSchema);
     },
@@ -94,14 +91,13 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
                       className="fm-b-fields-container"
                       {...dropProvided.droppableProps}
                     >
-                      {Object.entries<any>(schema.properties).map(([key, property], index) => {
-                        const { type, widget, ...value } = property;
+                      {schema.items.map((item, index) => {
+                        const { id, type, widget, ...value } = item;
                         const Template = templates[widget];
                         return (
-                          <Draggable key={key} draggableId={key} index={index}>
+                          <Draggable key={id} draggableId={id} index={index}>
                             {(dragProvided) => (
                               <div
-                                key={key}
                                 className="fm-b-field"
                                 ref={dragProvided.innerRef}
                                 {...dragProvided.draggableProps}
@@ -109,8 +105,8 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
                               >
                                 <Template
                                   value={value}
-                                  onChange={(property) => handleFieldChange(key, property)}
-                                  onRemove={() => handleFieldRemove(key)}
+                                  onChange={(value) => handleFieldChange(index, value)}
+                                  onRemove={() => handleFieldRemove(index)}
                                 />
                               </div>
                             )}
@@ -127,7 +123,12 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
                 </pre>
               </Tabs.TabPane>
               <Tabs.TabPane tab="Preview" key="3">
-                <FormRender form={form} schema={schema} />
+                <div className="fm-b-preview">
+                  {schema.items.map((item) => {
+                    const Widget = widgets[item.widget];
+                    return <Widget className="fm-b-widget" {...item} />;
+                  })}
+                </div>
               </Tabs.TabPane>
             </Tabs>
           </Layout.Content>
