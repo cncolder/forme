@@ -126,7 +126,7 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
                 <div className="fm-b-preview">
                   {schema.items.map((item) => {
                     const Widget = widgets[item.widget];
-                    return <Widget className="fm-b-widget" {...item} />;
+                    return <Widget key={item.id} className="fm-b-widget" {...item} />;
                   })}
                 </div>
               </Tabs.TabPane>
