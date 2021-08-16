@@ -2,11 +2,9 @@ export interface CommonField {
   id: string;
   type: string;
   widget: string;
-  title?: string;
   question?: string;
   description?: string;
   help?: string;
-  sectionId?: string;
 }
 
 export interface TextInputField extends CommonField {
