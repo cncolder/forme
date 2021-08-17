@@ -60,8 +60,9 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
 
   const handleFieldRemove = useCallback(
     (index: number) => {
-      const newSchema = { ...schema };
-      delete newSchema.items[index];
+      const items = [...schema.items];
+      items.splice(index, 1);
+      const newSchema = { ...schema, items };
       console.log('new schema', newSchema);
       onChange?.(newSchema);
     },
@@ -113,6 +114,7 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
                           </Draggable>
                         );
                       })}
+                      {dropProvided.placeholder}
                     </div>
                   )}
                 </Droppable>
@@ -135,12 +137,12 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
 
           <Layout.Sider className="fm-b-templates" width={240}>
             <h2>Form components</h2>
-            <Droppable droppableId="templates">
+            <Droppable droppableId="templates" isDropDisabled>
               {(dropProvided, dropSnapshot) => (
                 <div ref={dropProvided.innerRef} {...dropProvided.droppableProps}>
                   {Object.entries(templates).map(([key, Template], index) => (
                     <Draggable key={key} draggableId={key} index={index}>
-                      {(dragProvided) => (
+                      {(dragProvided, dragSnapshot) => (
                         <div
                           className="fm-b-template"
                           ref={dragProvided.innerRef}
@@ -152,6 +154,7 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
                       )}
                     </Draggable>
                   ))}
+                  {dropProvided.placeholder}
                 </div>
               )}
             </Droppable>
