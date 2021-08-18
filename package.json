@@ -26,8 +26,13 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
+    "@formily/antd": "^2.0.0-rc.1",
+    "@formily/core": "^2.0.0-rc.1",
+    "@formily/designable-antd": "^2.0.0-rc.1",
+    "@formily/react": "^2.0.0-rc.1",
     "antd": "^4.16.11",
     "classnames": "^2.3.1",
+    "moment": "^2.29.1",
     "nanoid": "^3.1.23",
     "react": "^16.14.0",
     "react-beautiful-dnd": "^13.1.0",
