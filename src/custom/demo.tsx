@@ -1,11 +1,10 @@
+import 'antd/dist/antd.css';
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import { useSessionStorage } from 'react-use';
-import 'antd/dist/antd.css';
-
-import { uid } from './utils';
 import { FormBuilder } from './components';
 import { Schema } from './types';
+import { uid } from './utils';
 import './demo.less';
 
 const DEFAULT_SCHEMA: Schema = {

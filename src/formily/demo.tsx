@@ -1,11 +1,11 @@
+import 'antd/dist/antd.css';
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import { Layout, Menu } from 'antd';
-import 'antd/dist/antd.css';
-
+import { App } from './App';
 import styles from './demo.module.less';
 
-const App: FC = () => {
+const Demo: FC = () => {
   return (
     <Layout className={styles.page}>
       <Layout.Header className={styles.header}>
@@ -20,8 +20,11 @@ const App: FC = () => {
           <Menu.Item key="custom">Custom</Menu.Item>
         </Menu>
       </Layout.Header>
+      <Layout.Content>
+        <App />
+      </Layout.Content>
     </Layout>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Demo />, document.getElementById('root'));
