@@ -1,7 +1,7 @@
 import React, { FC, useState, useCallback } from 'react';
 import classNames from 'classnames';
 import { DragDropContext, DragDropContextProps, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Layout, Tabs } from 'antd';
+import { Layout, Menu, Tabs } from 'antd';
 
 import { uid } from '../../utils';
 import * as templates from '../../templates';
@@ -22,7 +22,7 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
 
   const handleDragEnd = useCallback<DragDropContextProps['onDragEnd']>(
     (e) => {
-      console.log(e);
+      console.log('onDragEnd', e);
       /** Drag form components and drop to form builder fields */
       if (e.source?.droppableId === 'templates' && e.destination?.droppableId === 'fields') {
         const items = [...schema.items];
@@ -50,8 +50,9 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
 
   const handleFieldChange = useCallback(
     (index: number, value: any) => {
-      const newSchema = { ...schema };
-      newSchema.items[index] = { ...newSchema.items[index], ...value };
+      const items = [...schema.items];
+      items[index] = { ...items[index], ...value };
+      const newSchema = { ...schema, items };
       console.log('new schema', newSchema);
       onChange?.(newSchema);
     },
@@ -74,6 +75,15 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
       <Layout className={classNames('fm-b', className)}>
         <Layout.Header className="fm-b-header">
           <h1>Form Builder</h1>
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={['custom']}
+            onSelect={(e) => (location.href = `/forme/${e.key}.html`)}
+          >
+            <Menu.Item key="formily">Formily</Menu.Item>
+            <Menu.Item key="custom">Custom</Menu.Item>
+          </Menu>
         </Layout.Header>
 
         <Layout>
