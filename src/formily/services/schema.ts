@@ -1,27 +1,20 @@
 import { Engine } from '@designable/core';
-import { transformToSchema, transformToTreeNode } from '@designable/formily';
-import { message } from 'antd';
+import { transformToSchema, transformToTreeNode, ITransformerOptions } from '@designable/formily';
+
+const storageKey = 'formly_schema';
+const transformerOptions: ITransformerOptions = {
+  designableFieldName: 'DesignableField',
+  designableFormName: 'Root',
+};
 
 export const saveSchema = (designer: Engine) => {
-  sessionStorage.setItem(
-    'formily-schema',
-    JSON.stringify(
-      transformToSchema(designer.getCurrentTree(), {
-        designableFieldName: 'DesignableField',
-        designableFormName: 'Root',
-      })
-    )
-  );
-  message.success('Save Success');
+  const schema = transformToSchema(designer.getCurrentTree(), transformerOptions);
+  sessionStorage.setItem(storageKey, JSON.stringify(schema));
 };
 
 export const loadInitialSchema = (designer: Engine) => {
   try {
-    designer.setCurrentTree(
-      transformToTreeNode(JSON.parse(sessionStorage.getItem('formily-schema')), {
-        designableFieldName: 'DesignableField',
-        designableFormName: 'Root',
-      })
-    );
+    const schema = JSON.parse(sessionStorage.getItem(storageKey));
+    designer.setCurrentTree(transformToTreeNode(schema, transformerOptions));
   } catch {}
 };

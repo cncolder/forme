@@ -1,5 +1,4 @@
 import React from 'react';
-import { createDesigner, KeyCode, Shortcut } from '@designable/core';
 import {
   ComponentTreeWidget,
   CompositePanel,
@@ -18,51 +17,39 @@ import {
   WorkspacePanel,
 } from '@designable/react';
 import { SettingsForm } from '@designable/react-settings-form';
-import { createDesignableField, createDesignableForm } from '@formily/designable-antd';
-import { ActionsWidget, LogoWidget, PreviewWidget, SchemaEditorWidget } from './components';
-import { saveSchema } from './services';
-
-// GlobalRegistry.registerDesignerLocales({
-//   'en-US': {
-//     sources: {
-//       Inputs: 'Inputs',
-//       Layouts: 'Layouts',
-//       Arrays: 'Arrays',
-//     },
-//   },
-// });
-
-const Root = createDesignableForm({
-  registryName: 'Root',
-});
-
-const DesignableField = createDesignableField({
-  registryName: 'DesignableField',
-});
-
-const SaveShortCut = new Shortcut({
-  codes: [
-    [KeyCode.Meta, KeyCode.S],
-    [KeyCode.Control, KeyCode.S],
-  ],
-  handler(ctx) {
-    saveSchema(ctx.engine);
-  },
-});
-
-const engine = createDesigner({
-  shortcuts: [SaveShortCut],
-});
+import { engine } from './services';
+import { ActionsWidget, PreviewWidget, SchemaEditorWidget, Root, DesignableField } from './widgets';
+import './locales';
+import './sources';
 
 export const App = () => {
   return (
     <Designer engine={engine}>
-      <MainPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
+      <MainPanel
+        // logo={<LogoWidget />}
+        actions={<ActionsWidget />}
+      >
         <CompositePanel>
-          <CompositePanel.Item title="Component" icon="Component">
+          <CompositePanel.Item title="panels.Component" icon="Component">
+            {/* <DragSourceWidget title="sources.Inputs" name="inputs">
+              {(node) =>
+                console.log(node?.id, node?.designerProps?.title, node?.designerProps?.icon) || (
+                  <div key={node.id} data-designer-source-id={node.id}>
+                    {node?.designerProps?.icon && (
+                      <IconWidget
+                        infer={node?.designerProps?.icon}
+                        size={12}
+                        style={{ marginRight: 3 }}
+                      />
+                    )}
+                    <TextWidget>{node?.designerProps?.title}</TextWidget>
+                  </div>
+                )
+              }
+            </DragSourceWidget> */}
             <DragSourceWidget title="sources.Inputs" name="inputs" />
-            <DragSourceWidget title="sources.Layouts" name="layouts" />
-            <DragSourceWidget title="sources.Arrays" name="arrays" />
+            {/* <DragSourceWidget title="sources.Layouts" name="layouts" /> */}
+            {/* <DragSourceWidget title="sources.Arrays" name="arrays" /> */}
           </CompositePanel.Item>
           <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
             <OutlineTreeWidget />

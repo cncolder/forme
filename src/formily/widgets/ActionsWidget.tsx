@@ -1,16 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { GithubOutlined } from '@ant-design/icons';
 import { GlobalRegistry } from '@designable/core';
 import { useDesigner, TextWidget } from '@designable/react';
 import { observer } from '@formily/react';
-import { Space, Button, Radio } from 'antd';
+import { Space, Button, Radio, message } from 'antd';
 import { loadInitialSchema, saveSchema } from '../services';
 
 export const ActionsWidget = observer(() => {
   const designer = useDesigner();
+
+  const handleSaveClick = useCallback(() => {
+    saveSchema(designer);
+    message.success('Save Success');
+  }, [designer]);
+
   useEffect(() => {
     loadInitialSchema(designer);
   }, []);
+
   return (
     <Space style={{ marginRight: 10 }}>
       {/* <Button href="https://designable-fusion.formilyjs.org">
@@ -31,19 +38,10 @@ export const ActionsWidget = observer(() => {
         <GithubOutlined />
         Github
       </Button> */}
-      <Button
-        onClick={() => {
-          saveSchema(designer);
-        }}
-      >
+      <Button onClick={handleSaveClick}>
         <TextWidget>Save</TextWidget>
       </Button>
-      <Button
-        type="primary"
-        onClick={() => {
-          saveSchema(designer);
-        }}
-      >
+      <Button type="primary" onClick={handleSaveClick}>
         <TextWidget>Publish</TextWidget>
       </Button>
     </Space>
