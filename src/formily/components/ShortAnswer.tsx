@@ -4,7 +4,7 @@ import { PreviewText } from '@formily/antd';
 import { connect, mapProps, mapReadPretty } from '@formily/react';
 import { Input, InputProps } from 'antd';
 
-export const TextInput: FC<InputProps> = connect(
+export const ShortAnswer: FC<InputProps> = connect(
   Input,
   mapProps((props, field) => {
     return {

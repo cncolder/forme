@@ -5,19 +5,19 @@ GlobalDragSource.setSourcesByGroup('inputs', [
   {
     componentName: 'DesignableField',
     props: {
-      title: 'Input',
+      title: 'Short answer',
       type: 'string',
       'x-decorator': 'FormItem',
-      'x-component': 'Input',
+      'x-component': 'ShortAnswer',
     },
   },
   {
     componentName: 'DesignableField',
     props: {
-      title: 'TextInput',
+      title: 'Long answer',
       type: 'string',
       'x-decorator': 'FormItem',
-      'x-component': 'TextInput',
+      'x-component': 'LongAnswer',
     },
   },
 ]);

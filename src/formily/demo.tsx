@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Layout, Menu } from 'antd';
 import { App } from './App';
 import styles from './demo.module.less';
+import './designable.less';
 
 const Demo: FC = () => {
   return (

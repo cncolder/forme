@@ -17,8 +17,10 @@ import {
   WorkspacePanel,
 } from '@designable/react';
 import { SettingsForm } from '@designable/react-settings-form';
+import styles from './App.module.less';
 import { engine } from './services';
 import { ActionsWidget, PreviewWidget, SchemaEditorWidget, Root, DesignableField } from './widgets';
+import './icons';
 import './locales';
 import './sources';
 
@@ -47,8 +49,8 @@ export const App = () => {
                 )
               }
             </DragSourceWidget> */}
+            <DragSourceWidget title="sources.Layouts" name="layouts" />
             <DragSourceWidget title="sources.Inputs" name="inputs" />
-            {/* <DragSourceWidget title="sources.Layouts" name="layouts" /> */}
             {/* <DragSourceWidget title="sources.Arrays" name="arrays" /> */}
           </CompositePanel.Item>
           <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">

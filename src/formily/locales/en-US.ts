@@ -3,12 +3,13 @@ import { IDesignerLocales } from '@designable/core';
 export const enUS: IDesignerLocales['messages'] = {
   'en-US': {
     sources: {
-      Inputs: 'Inputs',
       Layouts: 'Layouts',
-      Arrays: 'Arrays',
+      Inputs: 'Inputs',
     },
     Components: {
-      TextInput: 'Short answer',
+      Section: 'Section',
+      ShortAnswer: 'Short answer',
+      LongAnswer: 'Long answer',
     },
   },
 };
