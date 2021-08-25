@@ -25,6 +25,11 @@ module.exports = {
             group: 'builtin',
             position: 'before',
           },
+          {
+            pattern: '{**,.,..}/*.module.{less,}',
+            group: 'object',
+            position: 'after',
+          },
         ],
         pathGroupsExcludedImportTypes: [],
         'newlines-between': 'never',

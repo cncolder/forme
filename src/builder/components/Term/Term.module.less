@@ -1,0 +1,25 @@
+.term {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px rgba(72, 72, 72, 0.15), 0px 0px 1px rgba(72, 72, 72, 0.2);
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    color: #000;
+    border-bottom: 1px solid #cfcfcf;
+
+    .title {
+    }
+  }
+
+  .body {
+    padding: 0px 16px 16px 16px;
+
+    & > * + * {
+      margin-top: 16px;
+    }
+  }
+}
