@@ -8,8 +8,14 @@ export const enUS: IDesignerLocales['messages'] = {
     },
     Components: {
       Section: 'Section',
+      Term: 'Term',
       ShortAnswer: 'Short answer',
       LongAnswer: 'Long answer',
+    },
+    Settings: {
+      'x-component-props': {
+        question: 'Question',
+      },
     },
   },
 };

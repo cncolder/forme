@@ -1,2 +1,2 @@
-import './inputs';
-import './layouts';
+export * from './inputs';
+export * from './layouts';

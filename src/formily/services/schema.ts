@@ -1,5 +1,10 @@
 import { Engine } from '@designable/core';
-import { transformToSchema, transformToTreeNode, ITransformerOptions } from '@designable/formily';
+import {
+  transformToSchema,
+  transformToTreeNode,
+  ITransformerOptions,
+  IFormilySchema,
+} from '@designable/formily';
 
 const storageKey = 'formly_schema';
 const transformerOptions: ITransformerOptions = {
@@ -14,7 +19,44 @@ export const saveSchema = (designer: Engine) => {
 
 export const loadInitialSchema = (designer: Engine) => {
   try {
-    const schema = JSON.parse(sessionStorage.getItem(storageKey));
+    const schema: IFormilySchema = JSON.parse(sessionStorage.getItem(storageKey));
     designer.setCurrentTree(transformToTreeNode(schema, transformerOptions));
-  } catch {}
+  } catch {
+    const schema: IFormilySchema = {
+      form: {
+        labelCol: 6,
+        wrapperCol: 12,
+      },
+      schema: {
+        type: 'object',
+        properties: {
+          A: {
+            type: 'void',
+            'x-component': 'Section',
+            'x-component-props': {
+              title: 'A',
+            },
+            'x-index': 0,
+          },
+          B: {
+            type: 'void',
+            'x-component': 'Section',
+            'x-component-props': {
+              title: 'B',
+            },
+            'x-index': 1,
+          },
+          C: {
+            type: 'void',
+            'x-component': 'Section',
+            'x-component-props': {
+              title: 'C',
+            },
+            'x-index': 2,
+          },
+        },
+      },
+    };
+    designer.setCurrentTree(transformToTreeNode(schema, transformerOptions));
+  }
 };

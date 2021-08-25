@@ -1,20 +1,16 @@
 import React, { FC } from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
-import { PreviewText } from '@formily/antd';
-import { connect, mapProps, mapReadPretty } from '@formily/react';
-import { Input, InputProps } from 'antd';
+import { connect } from '@formily/react';
 
-export const ShortAnswer: FC<InputProps> = connect(
-  Input,
-  mapProps((props, field) => {
-    return {
-      ...props,
-      suffix: (
-        <span>
-          {field?.['loading'] || field?.['validating'] ? <LoadingOutlined /> : props.suffix}
-        </span>
-      ),
-    };
-  }),
-  mapReadPretty(PreviewText.Input)
-);
+export interface ShortAnswerProps {
+  question?: string;
+  description?: string;
+}
+
+export const ShortAnswerComponent: FC<ShortAnswerProps> = (props) => {
+  console.log('ShortAnswerComponent render', props);
+  const { children, question, description, ...restProps } = props;
+
+  return <div>{children}</div>;
+};
+
+export const ShortAnswer: FC<ShortAnswerProps> = connect(ShortAnswerComponent);

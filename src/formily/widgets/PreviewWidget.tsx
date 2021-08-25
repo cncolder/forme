@@ -31,7 +31,9 @@ import {
 } from '@formily/antd';
 import { createForm } from '@formily/core';
 import { createSchemaField } from '@formily/react';
-import { Card, Slider, Rate } from 'antd';
+import { Card, Slider, Rate, Button } from 'antd';
+import { Section, Term, ShortAnswer, LongAnswer } from '../components';
+import { DesignableField } from '../designable/DesignableField';
 
 const SchemaField = createSchemaField({
   components: {
@@ -63,6 +65,13 @@ const SchemaField = createSchemaField({
     Card,
     Slider,
     Rate,
+
+    Text: DesignableField,
+
+    Section,
+    Term,
+    ShortAnswer,
+    LongAnswer,
   },
 });
 
@@ -76,9 +85,17 @@ export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
     designableFormName: 'Root',
     designableFieldName: 'DesignableField',
   });
+
   return (
     <Form {...formProps} form={form}>
       <SchemaField schema={schema} />
+      <Button
+        type="primary"
+        htmlType="submit"
+        onClick={(e) => form.submit((values) => console.log('form submit', values))}
+      >
+        Submit
+      </Button>
     </Form>
   );
 };

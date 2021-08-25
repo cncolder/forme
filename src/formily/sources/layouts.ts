@@ -1,6 +1,6 @@
-import { GlobalDragSource } from '@designable/core';
+import { ITreeNode } from '@designable/core';
 
-GlobalDragSource.setSourcesByGroup('layouts', [
+export const layouts: ITreeNode[] = [
   {
     componentName: 'DesignableField',
     props: {
@@ -11,4 +11,14 @@ GlobalDragSource.setSourcesByGroup('layouts', [
       },
     },
   },
-]);
+  {
+    componentName: 'DesignableField',
+    props: {
+      type: 'void',
+      'x-component': 'Term',
+      'x-component-props': {
+        title: 'Term title',
+      },
+    },
+  },
+];
