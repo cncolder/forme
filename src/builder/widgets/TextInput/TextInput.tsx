@@ -1,22 +1,21 @@
 import React, { FC } from 'react';
 import { Input } from 'antd';
-
-import { TextAreaField } from '../../types';
+import { TextInputField } from '../../types';
 import { Field } from '../Field';
 import './style.less';
 
-export interface TextAreaProps extends TextAreaField {
+export interface TextInputProps extends TextInputField {
   className?: string;
 }
 
-export const TextArea: FC<TextAreaProps> = (props: TextAreaProps) => {
+export const TextInput: FC<TextInputProps> = (props: TextInputProps) => {
   const { id, className, type, widget, question, description, help, label, ...rest } = props;
 
   return (
     <Field className={className} question={question} description={description} help={help}>
-      <div className="fm-w-text-area">
-        <div className="fm-w-text-area-label">{label}</div>
-        <Input.TextArea rows={4} {...rest} />
+      <div className="fm-w-text-input">
+        <div className="fm-w-text-input-label">{label}</div>
+        <Input {...rest} />
       </div>
     </Field>
   );

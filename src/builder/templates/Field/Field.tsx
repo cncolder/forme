@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useCallback } from 'react';
-import classNames from 'classnames';
-import { Avatar, Button, Input, Checkbox, Upload, Modal } from 'antd';
 import { BulbOutlined, CloseOutlined, FileImageOutlined } from '@ant-design/icons';
+import { Avatar, Button, Input, Checkbox, Upload, Modal } from 'antd';
+import classNames from 'classnames';
 
 import './style.less';
 

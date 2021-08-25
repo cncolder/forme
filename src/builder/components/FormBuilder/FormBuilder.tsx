@@ -1,12 +1,11 @@
 import React, { FC, useState, useCallback } from 'react';
+import { Layout, Menu, Tabs } from 'antd';
 import classNames from 'classnames';
 import { DragDropContext, DragDropContextProps, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Layout, Menu, Tabs } from 'antd';
-
-import { uid } from '../../utils';
 import * as templates from '../../templates';
-import * as widgets from '../../widgets';
 import { Schema } from '../../types';
+import { uid } from '../../utils';
+import * as widgets from '../../widgets';
 import './style.less';
 
 export interface FormBuilderProps {
@@ -78,11 +77,11 @@ export const FormBuilder: FC<FormBuilderProps> = (props) => {
           <Menu
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={['custom']}
+            defaultSelectedKeys={['builder']}
             onSelect={(e) => (location.href = `/forme/${e.key}.html`)}
           >
+            <Menu.Item key="builder">Builder</Menu.Item>
             <Menu.Item key="formily">Formily</Menu.Item>
-            <Menu.Item key="custom">Custom</Menu.Item>
           </Menu>
         </Layout.Header>
 

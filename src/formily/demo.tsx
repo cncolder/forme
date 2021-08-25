@@ -17,8 +17,8 @@ const Demo: FC = () => {
           defaultSelectedKeys={['formily']}
           onSelect={(e) => (location.href = `/forme/${e.key}.html`)}
         >
+          <Menu.Item key="builder">Builder</Menu.Item>
           <Menu.Item key="formily">Formily</Menu.Item>
-          <Menu.Item key="custom">Custom</Menu.Item>
         </Menu>
       </Layout.Header>
       <Layout.Content>
