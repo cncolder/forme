@@ -1,10 +1,12 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { ISchema } from '@formily/json-schema';
 import { observer } from '@formily/react';
+import { Divider, Typography } from 'antd';
 import classNames from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 import { useDrop } from 'react-dnd';
-import { DragType } from '../../configs';
-import { debug } from '../../utils';
+import { DragType, ComponentConfig } from '../../configs';
+import { debug, uid } from '../../utils';
 import styles from './TermDesigner.module.less';
 
 interface TermDesignerComponentProps {
@@ -29,6 +31,11 @@ export const TermDesigner = observer<TermDesignerProps, {}>((props) => {
     collect: (monitor) => ({
       className: classNames({ [styles.dropable]: monitor.isOver() && monitor.canDrop() }),
     }),
+    drop: (item: ComponentConfig, monitor) => {
+      log('drop %o %o', item, monitor);
+      schema.properties ??= {};
+      schema.properties[uid()] = item.schema;
+    },
   }));
 
   return (
@@ -36,7 +43,17 @@ export const TermDesigner = observer<TermDesignerProps, {}>((props) => {
       <div className={styles.header}>
         <span className={styles.title}>{title}</span>
       </div>
-      <div className={styles.body}>{children}</div>
+      <div className={styles.body}>
+        {!isEmpty(children) ? (
+          children
+        ) : (
+          <Divider dashed plain>
+            <Typography.Text type="secondary">
+              Drag and drop a component into the term
+            </Typography.Text>
+          </Divider>
+        )}
+      </div>
     </div>
   );
 });
