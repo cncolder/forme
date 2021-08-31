@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Forme</title>
+  </head>
+  <body>
+    <script type="module">
+      location.href = '/forme/builder.html';
+    </script>
+  </body>
+</html>
