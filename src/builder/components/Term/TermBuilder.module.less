@@ -1,4 +1,8 @@
-.sectionDesigner {
+.termBuilder {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px rgba(72, 72, 72, 0.15), 0px 0px 1px rgba(72, 72, 72, 0.2);
+
   &.dropable {
     background: #f2f0ff;
   }
@@ -6,23 +10,20 @@
   .header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     padding: 16px;
-    color: #7a7e82;
-
-    .icon {
-      margin-right: 12px;
-    }
+    color: #000;
+    border-bottom: 1px solid #cfcfcf;
 
     .title {
-      text-transform: uppercase;
     }
   }
 
   .body {
     padding: 0px 16px 16px 16px;
 
-    & > * + * {
+    & > * {
       margin-top: 16px;
     }
   }

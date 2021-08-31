@@ -1,4 +1,4 @@
-export * from './Designer';
-export * from './FormBuilder';
+export * from './Builder';
+export * from './zFormBuilder';
 export * from './Library';
 export * from './Preview';

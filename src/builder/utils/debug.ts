@@ -7,7 +7,7 @@ export const debug = (arg: string) => {
   if (typeof arg === 'string') {
     if (arg.startsWith('http')) {
       const { pathname } = new URL(arg);
-      namespace = pathname.split('/src/').pop();
+      namespace = pathname.split('/src/').pop().split('.')[0].replace(/\//g, ':');
     } else {
       namespace = arg;
     }

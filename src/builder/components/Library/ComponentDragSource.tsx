@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
 import { useDrag } from 'react-dnd';
-import { DragType, ComponentConfig } from '../../configs';
+import { DragType, BuilderConfig } from '../../models';
 import styles from './ComponentDragSource.module.less';
 
 export interface ComponentDragSourceProps {
   className?: string;
-  item: ComponentConfig;
+  item: BuilderConfig;
 }
 
 export const ComponentDragSource: FC<ComponentDragSourceProps> = (props) => {

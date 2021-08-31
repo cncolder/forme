@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { componentConfigs, ComponentConfig } from '../../configs';
+import { builderConfigs, BuilderConfig } from '../../models';
 import { ComponentDragSource } from './ComponentDragSource';
 
-const dragableComponents = Object.entries(componentConfigs)
+const dragableComponents = Object.entries(builderConfigs)
   .filter(([key, config]) => config.dragable)
-  .map<ComponentConfig>(([key, config]) => ({ key, ...config }));
+  .map<BuilderConfig>(([key, config]) => ({ key, ...config }));
 
 export const Library: FC = () => {
   return (

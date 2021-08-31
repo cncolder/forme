@@ -1,21 +1,19 @@
-import React, { ReactNode } from 'react';
 import { ISchema } from '@formily/json-schema';
-import { Avatar } from 'antd';
 import * as icons from '../assets/icons';
 
-export interface ComponentConfig {
+export interface BuilderConfig {
   key?: string;
   name: string;
   dragable?: boolean;
-  icon: ReactNode;
+  icon: string;
   schema: ISchema;
 }
 
-export const componentConfigs: Record<string, ComponentConfig> = {
+export const builderConfigs: Record<string, BuilderConfig> = {
   Section: {
     name: 'Section',
     dragable: true,
-    icon: <Avatar src={icons.Section} size={40} />,
+    icon: icons.Section,
     schema: {
       type: 'string',
       'x-component': 'Section',
@@ -26,7 +24,7 @@ export const componentConfigs: Record<string, ComponentConfig> = {
   Term: {
     name: 'Term',
     dragable: true,
-    icon: <Avatar src={icons.Term} size={40} />,
+    icon: icons.Term,
     schema: {
       type: 'string',
       'x-component': 'Term',
