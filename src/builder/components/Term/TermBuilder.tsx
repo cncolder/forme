@@ -31,6 +31,9 @@ export const TermBuilder: FC<TermBuilderProps> = observer((props) => {
       collect: (monitor) => ({
         className: classNames({ [styles.dropable]: monitor.isOver() && monitor.canDrop() }),
       }),
+      canDrop: (item: BuilderConfig, monitor) => {
+        return !['Section', 'Term'].includes(item.name);
+      },
       drop: (item: BuilderConfig, monitor) => {
         log('drop %o %o', item, monitor);
         treeNode.append(TreeNode.fromSchema(item.schema));

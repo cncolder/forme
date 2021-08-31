@@ -30,9 +30,7 @@ export const SectionBuilder: FC<SectionBuilderProps> = observer((props) => {
         className: classNames({ [styles.dropable]: monitor.isOver() && monitor.canDrop() }),
       }),
       canDrop: (item: BuilderConfig, monitor) => {
-        if (item.name === 'Term' && monitor.isOver({ shallow: true })) {
-          return true;
-        }
+        return item.name === 'Term';
       },
       drop: (item: BuilderConfig, monitor) => {
         log('drop %o %o', item, monitor);
