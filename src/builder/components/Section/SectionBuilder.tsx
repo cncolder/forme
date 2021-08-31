@@ -21,7 +21,7 @@ export const SectionBuilder: FC<SectionBuilderProps> = observer((props) => {
   log('render %o', props);
 
   const { className, children, treeNode } = props;
-  const { title } = treeNode;
+  const { title } = treeNode.props;
 
   const [collected, dropRef] = useDrop(
     () => ({

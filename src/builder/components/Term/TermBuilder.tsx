@@ -23,7 +23,7 @@ export const TermBuilder: FC<TermBuilderProps> = observer((props) => {
   log('render %o', props);
 
   const { className, children, treeNode, onRename, onDuplicate, onDelete } = props;
-  const { title } = treeNode;
+  const { title } = treeNode.props;
 
   const [collected, dropRef] = useDrop(
     () => ({
