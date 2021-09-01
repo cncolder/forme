@@ -92,6 +92,10 @@ export class TreeNode<P extends Record<string, any> = Record<string, any>> imple
     return this.parent.children.filter((node) => node !== this);
   }
 
+  findById(id: string) {
+    return this.children.find((node) => node.id === id);
+  }
+
   clone(parent?: TreeNode) {
     const newNode = new TreeNode(
       {

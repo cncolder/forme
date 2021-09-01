@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { builderConfigs, BuilderConfig } from '../../models';
+import { dnd } from '../../utils';
 import { ComponentDragSource } from './ComponentDragSource';
 
 const dragableComponents = Object.entries(builderConfigs)
@@ -9,8 +11,32 @@ const dragableComponents = Object.entries(builderConfigs)
 export const Library: FC = () => {
   return (
     <div>
-      {dragableComponents.map((item) => (
-        <ComponentDragSource key={item.key} item={item} />
+      {dragableComponents.map((item, index) => (
+        <Droppable
+          key={item.key}
+          droppableId={dnd.stringify({ id: item.key, type: 'Library', action: 'drop' })}
+          type={['Section', 'Term'].includes(item.key) ? item.key : 'Component'}
+        >
+          {(provided) => (
+            <div ref={provided.innerRef}>
+              <Draggable
+                draggableId={dnd.stringify({ id: item.key, type: 'Library', action: 'drag' })}
+                index={index}
+              >
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <ComponentDragSource item={item} />
+                  </div>
+                )}
+              </Draggable>
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       ))}
     </div>
   );

@@ -1,9 +1,9 @@
 import React, { FC, createElement } from 'react';
 import { Modal } from 'antd';
 import classNames from 'classnames';
-import { useDrop } from 'react-dnd';
-import { observer, DragType, BuilderConfig, TreeNode } from '../../models';
-import { debug } from '../../utils';
+import { Droppable } from 'react-beautiful-dnd';
+import { observer, TreeNode } from '../../models';
+import { debug, dnd } from '../../utils';
 import {
   ContainerBuilder,
   SectionBuilder,
@@ -71,26 +71,25 @@ export const Builder: FC<BuilderProps> = observer((props) => {
 
   const { className, treeNode } = props;
 
-  const [collected, dropRef] = useDrop(() => ({
-    accept: DragType.Component,
-    collect: (monitor) => ({
-      className: classNames({ [styles.dropable]: monitor.isOver() && monitor.canDrop() }),
-    }),
-    canDrop: (item: BuilderConfig, monitor) => {
-      if (item.name === 'Section' && monitor.isOver({ shallow: true })) {
-        return true;
-      }
-    },
-    drop: (item: BuilderConfig, monitor) => {
-      log('drop %o %o', item, monitor);
-      // schema.properties ??= {};
-      // schema.properties[uid(item.schema.title + ' ')] = item.schema;
-    },
-  }));
-
   return (
-    <div ref={dropRef} className={classNames(styles.builder, collected.className, className)}>
-      {renderTreeNode(treeNode)}
-    </div>
+    <Droppable
+      droppableId={dnd.stringify({ id: '/', type: 'Builder', action: 'drop' })}
+      type="Section"
+    >
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+          className={classNames(
+            styles.builder,
+            { [styles.dragover]: snapshot.isDraggingOver },
+            className
+          )}
+        >
+          {renderTreeNode(treeNode)}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
   );
 });

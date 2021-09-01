@@ -1,8 +1,4 @@
 .sectionBuilder {
-  &.dropable {
-    background: #f2f0ff;
-  }
-
   .header {
     display: flex;
     flex-direction: row;
@@ -21,6 +17,11 @@
 
   .body {
     padding: 0px 16px 16px 16px;
+
+    &.dragover {
+      background: #f2f0ff;
+      box-shadow: inset 0px 0px 1px 1px #00b294;
+    }
 
     & > * + * {
       margin-top: 16px;

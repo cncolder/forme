@@ -2,6 +2,7 @@ import React, { FC, useCallback } from 'react';
 import { FileImageOutlined, BulbOutlined, MoreOutlined } from '@ant-design/icons';
 import { Modal, Input, Upload, Button, Dropdown, Menu, Form } from 'antd';
 import classNames from 'classnames';
+import { Draggable } from 'react-beautiful-dnd';
 import { observer } from '../../models';
 import { debug } from '../../utils';
 import { StandardBuilderProps } from '../types';
@@ -62,60 +63,68 @@ export const ContainerBuilder: FC<ContainerBuilderProps> = observer((props) => {
   }, [modal, componentProps]);
 
   return (
-    <div className={classNames(styles.containerBuilder, className)}>
-      <div className={styles.header}>
-        <img className={styles.logo} src={icon} />
-        <div className={styles.title}></div>
-        <Button type="text" icon={<BulbOutlined />} onClick={handleEditHelpClick}>
-          Edit help content
-        </Button>
-        <Dropdown
-          placement="bottomRight"
-          trigger={['click']}
-          overlay={
-            <Menu>
-              <Menu.Item key="title" disabled>
-                COMPONENT MENU
-              </Menu.Item>
-              <Menu.Item key="duplicate" onClick={onDuplicate}>
-                Duplicate
-              </Menu.Item>
-              <Menu.Item key="delete" danger onClick={onDelete}>
-                Delete
-              </Menu.Item>
-            </Menu>
-          }
+    <Draggable draggableId={treeNode.id} index={treeNode.index}>
+      {(provided) => (
+        <div
+          ref={provided.innerRef}
+          className={classNames(styles.containerBuilder, className)}
+          {...provided.draggableProps}
         >
-          <Button size="small" icon={<MoreOutlined />} />
-        </Dropdown>
-      </div>
+          <div className={styles.header} {...provided.dragHandleProps}>
+            <img className={styles.logo} src={icon} />
+            <div className={styles.title}></div>
+            <Button type="text" icon={<BulbOutlined />} onClick={handleEditHelpClick}>
+              Edit help content
+            </Button>
+            <Dropdown
+              placement="bottomRight"
+              trigger={['click']}
+              overlay={
+                <Menu>
+                  <Menu.Item key="title" disabled>
+                    COMPONENT MENU
+                  </Menu.Item>
+                  <Menu.Item key="duplicate" onClick={onDuplicate}>
+                    Duplicate
+                  </Menu.Item>
+                  <Menu.Item key="delete" danger onClick={onDelete}>
+                    Delete
+                  </Menu.Item>
+                </Menu>
+              }
+            >
+              <Button size="small" icon={<MoreOutlined />} />
+            </Dropdown>
+          </div>
 
-      <div className={styles.body}>
-        <Form layout="vertical">
-          <Form.Item label="Question" required>
-            <Input
-              defaultValue={componentProps.question}
-              onBlur={(e) => {
-                componentProps.question = e.target.value;
-              }}
-            />
-          </Form.Item>
-          <Form.Item label="Description">
-            <Input
-              defaultValue={componentProps.description}
-              onBlur={(e) => {
-                componentProps.description = e.target.value;
-              }}
-            />
-          </Form.Item>
-        </Form>
-        <div className={styles.response}>
-          <div className={styles.label}>Response settings</div>
-          {children}
+          <div className={styles.body}>
+            <Form layout="vertical">
+              <Form.Item label="Question" required>
+                <Input
+                  defaultValue={componentProps.question}
+                  onBlur={(e) => {
+                    componentProps.question = e.target.value;
+                  }}
+                />
+              </Form.Item>
+              <Form.Item label="Description">
+                <Input
+                  defaultValue={componentProps.description}
+                  onBlur={(e) => {
+                    componentProps.description = e.target.value;
+                  }}
+                />
+              </Form.Item>
+            </Form>
+            <div className={styles.response}>
+              <div className={styles.label}>Response settings</div>
+              {children}
+            </div>
+          </div>
+
+          {contextHolder}
         </div>
-      </div>
-
-      {contextHolder}
-    </div>
+      )}
+    </Draggable>
   );
 });

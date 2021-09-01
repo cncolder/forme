@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import { useDrop } from 'react-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import SectionSvg from '../../assets/icons/Section.svg';
-import { observer, DragType, BuilderConfig, TreeNode } from '../../models';
-import { debug } from '../../utils';
+import { observer } from '../../models';
+import { debug, dnd } from '../../utils';
 import { StandardBuilderProps } from '../types';
 import styles from './SectionBuilder.module.less';
 
@@ -23,33 +23,46 @@ export const SectionBuilder: FC<SectionBuilderProps> = observer((props) => {
   const { className, children, treeNode } = props;
   const { title } = treeNode.props;
 
-  const [collected, dropRef] = useDrop(
-    () => ({
-      accept: DragType.Component,
-      collect: (monitor) => ({
-        className: classNames({ [styles.dropable]: monitor.isOver() && monitor.canDrop() }),
-      }),
-      canDrop: (item: BuilderConfig, monitor) => {
-        return item.name === 'Term';
-      },
-      drop: (item: BuilderConfig, monitor) => {
-        log('drop %o %o', item, monitor);
-        treeNode.append(TreeNode.fromSchema(item.schema));
-      },
-    }),
-    [treeNode]
-  );
-
   return (
-    <div
-      ref={dropRef}
-      className={classNames(styles.sectionBuilder, collected.className, className)}
+    <Draggable
+      draggableId={dnd.stringify({
+        type: 'Section',
+        id: treeNode.id,
+        action: 'drag',
+      })}
+      index={treeNode.index}
     >
-      <div className={styles.header}>
-        <img className={styles.icon} src={SectionSvg} />
-        <span className={styles.title}>{title}</span>
-      </div>
-      <div className={styles.body}>{children}</div>
-    </div>
+      {(provided) => (
+        <div
+          ref={provided.innerRef}
+          className={classNames(styles.sectionBuilder, className)}
+          {...provided.draggableProps}
+        >
+          <div className={styles.header} {...provided.dragHandleProps}>
+            <img className={styles.icon} src={SectionSvg} />
+            <div className={styles.title}>{title}</div>
+          </div>
+          <Droppable
+            droppableId={dnd.stringify({
+              type: 'Section',
+              id: treeNode.id,
+              action: 'drop',
+            })}
+            type="Term"
+          >
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                className={classNames(styles.body, { [styles.dragover]: snapshot.isDraggingOver })}
+                {...provided.droppableProps}
+              >
+                {children}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
+      )}
+    </Draggable>
   );
 });
