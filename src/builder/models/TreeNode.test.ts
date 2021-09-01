@@ -35,8 +35,11 @@ const schema: ISchema = {
 };
 
 describe('TreeNode', () => {
-  it('create tree node from schema', () => {
-    expect(TreeNode.fromSchema(schema, '')).toMatchInlineSnapshot(`
+  describe('schema', () => {
+    const node = TreeNode.fromSchema(schema, '/');
+
+    it('create tree node from schema', () => {
+      expect(node).toMatchInlineSnapshot(`
 _TreeNode {
   "children": Array [
     _TreeNode {
@@ -53,7 +56,7 @@ _TreeNode {
                 "label": "Name",
                 "question": "What's your name?",
               },
-              "title": "",
+              "title": undefined,
               "type": "string",
             },
           ],
@@ -63,7 +66,7 @@ _TreeNode {
           "props": Object {
             "title": "I",
           },
-          "title": "",
+          "title": undefined,
           "type": "void",
         },
       ],
@@ -73,17 +76,62 @@ _TreeNode {
       "props": Object {
         "title": "A",
       },
-      "title": "",
+      "title": undefined,
       "type": "void",
     },
   ],
   "component": undefined,
-  "id": "",
+  "id": "/",
   "parent": undefined,
   "props": undefined,
-  "title": "",
+  "title": undefined,
   "type": "object",
 }
 `);
+    });
+
+    it('serialize to schema', () => {
+      expect(node.toSchema()).toMatchInlineSnapshot(`
+Object {
+  "properties": Object {
+    "A": Object {
+      "properties": Object {
+        "I": Object {
+          "properties": Object {
+            "1": Object {
+              "properties": Object {},
+              "title": undefined,
+              "type": "string",
+              "x-component": "ShortAnswer",
+              "x-component-props": Object {
+                "description": "Please fill in your full name.",
+                "label": "Name",
+                "question": "What's your name?",
+              },
+            },
+          },
+          "title": undefined,
+          "type": "void",
+          "x-component": "Term",
+          "x-component-props": Object {
+            "title": "I",
+          },
+        },
+      },
+      "title": undefined,
+      "type": "void",
+      "x-component": "Section",
+      "x-component-props": Object {
+        "title": "A",
+      },
+    },
+  },
+  "title": undefined,
+  "type": "object",
+  "x-component": undefined,
+  "x-component-props": undefined,
+}
+`);
+    });
   });
 });

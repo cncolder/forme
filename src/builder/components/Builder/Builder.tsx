@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import classNames from 'classnames';
 import { Droppable } from 'react-beautiful-dnd';
 import { observer, TreeNode } from '../../models';
-import { debug, dnd } from '../../utils';
+import { debug, DnD } from '../../utils';
 import {
   ContainerBuilder,
   SectionBuilder,
@@ -73,7 +73,7 @@ export const Builder: FC<BuilderProps> = observer((props) => {
 
   return (
     <Droppable
-      droppableId={dnd.stringify({ id: '/', type: 'Builder', action: 'drop' })}
+      droppableId={DnD.stringify({ id: '/', type: 'Builder', action: 'drop' })}
       type="Section"
     >
       {(provided, snapshot) => (

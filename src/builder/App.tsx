@@ -6,7 +6,7 @@ import { DragDropContext, DragDropContextProps } from 'react-beautiful-dnd';
 import { Builder, Preview, Library } from './components';
 import { observer, BuilderStore, TreeNode } from './models';
 import { defaultSchema } from './seeds';
-import { debug, dnd } from './utils';
+import { debug, DnD } from './utils';
 import styles from './App.module.less';
 
 const log = debug(import.meta?.url);
@@ -36,8 +36,8 @@ export const App: FC = observer(() => {
 
       if (result.reason !== 'DROP' || !result.draggableId || !result.destination) return;
 
-      const drag = dnd.parse(result.draggableId);
-      const drop = dnd.parse(result.destination.droppableId);
+      const drag = DnD.parse(result.draggableId);
+      const drop = DnD.parse(result.destination.droppableId);
 
       if (drag.type === 'Library') {
         if (drag.id === 'Section' && drop.type === 'Builder') {

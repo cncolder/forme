@@ -6,7 +6,7 @@ export interface DragDropIdValue {
   [key: string]: any;
 }
 
-export const dnd = {
+export const DnD = {
   stringify: (value: DragDropIdValue) => JSON.stringify(value),
   parse: (value: string): DragDropIdValue => JSON.parse(value),
 };

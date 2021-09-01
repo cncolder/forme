@@ -17,7 +17,9 @@ export const builderConfigs: Record<string, BuilderConfig> = {
     schema: {
       type: 'string',
       'x-component': 'Section',
-      'x-component-props': {},
+      'x-component-props': {
+        title: 'Section',
+      },
     },
   },
 
@@ -28,7 +30,9 @@ export const builderConfigs: Record<string, BuilderConfig> = {
     schema: {
       type: 'string',
       'x-component': 'Term',
-      'x-component-props': {},
+      'x-component-props': {
+        title: 'Term',
+      },
     },
   },
 
@@ -38,9 +42,10 @@ export const builderConfigs: Record<string, BuilderConfig> = {
     icon: icons.ShortAnswer,
     schema: {
       type: 'string',
-      title: 'Short answer',
       'x-component': 'ShortAnswer',
-      'x-component-props': {},
+      'x-component-props': {
+        title: 'Short answer',
+      },
     },
   },
 
@@ -50,9 +55,10 @@ export const builderConfigs: Record<string, BuilderConfig> = {
     icon: icons.LongAnswer,
     schema: {
       type: 'string',
-      title: 'Long answer',
       'x-component': 'LongAnswer',
-      'x-component-props': {},
+      'x-component-props': {
+        title: 'Long answer',
+      },
     },
   },
 };

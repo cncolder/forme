@@ -4,11 +4,12 @@ import { Modal, Input, Upload, Button, Dropdown, Menu, Form } from 'antd';
 import classNames from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
 import { observer } from '../../models';
-import { debug } from '../../utils';
+import { debug, DnD } from '../../utils';
 import { StandardBuilderProps } from '../types';
 import styles from './ContainerBuilder.module.less';
 
 export interface ContainerBuilderValues {
+  title?: string;
   question?: string;
   description?: string;
   help?: string;
@@ -63,7 +64,10 @@ export const ContainerBuilder: FC<ContainerBuilderProps> = observer((props) => {
   }, [modal, componentProps]);
 
   return (
-    <Draggable draggableId={treeNode.id} index={treeNode.index}>
+    <Draggable
+      draggableId={DnD.stringify({ type: 'Component', id: treeNode.id, action: 'drag' })}
+      index={treeNode.index}
+    >
       {(provided) => (
         <div
           ref={provided.innerRef}
@@ -72,7 +76,7 @@ export const ContainerBuilder: FC<ContainerBuilderProps> = observer((props) => {
         >
           <div className={styles.header} {...provided.dragHandleProps}>
             <img className={styles.logo} src={icon} />
-            <div className={styles.title}></div>
+            <div className={styles.title}>{componentProps.title}</div>
             <Button type="text" icon={<BulbOutlined />} onClick={handleEditHelpClick}>
               Edit help content
             </Button>

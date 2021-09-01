@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { observer } from '../../models';
-import { debug, dnd } from '../../utils';
+import { debug, DnD } from '../../utils';
 import { StandardBuilderProps } from '../types';
 import styles from './TermBuilder.module.less';
 
@@ -27,7 +27,7 @@ export const TermBuilder: FC<TermBuilderProps> = observer((props) => {
 
   return (
     <Draggable
-      draggableId={dnd.stringify({
+      draggableId={DnD.stringify({
         type: 'Term',
         id: treeNode.id,
         action: 'drag',
@@ -67,7 +67,7 @@ export const TermBuilder: FC<TermBuilderProps> = observer((props) => {
             </Dropdown>
           </div>
           <Droppable
-            droppableId={dnd.stringify({
+            droppableId={DnD.stringify({
               type: 'Term',
               id: treeNode.id,
               action: 'drop',
@@ -86,7 +86,7 @@ export const TermBuilder: FC<TermBuilderProps> = observer((props) => {
                 ) : (
                   <Draggable
                     isDragDisabled
-                    draggableId={dnd.stringify({
+                    draggableId={DnD.stringify({
                       type: 'Term',
                       id: treeNode.id,
                       action: 'drop',

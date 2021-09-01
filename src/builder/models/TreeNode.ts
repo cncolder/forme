@@ -18,23 +18,14 @@ export class TreeNode<P extends Record<string, any> = Record<string, any>> imple
 
   static fromSchema(schema: ISchema, id?: string, parent?: TreeNode) {
     const {
-      type = '',
-      title = '',
+      type,
+      title,
       'x-component': component,
       'x-component-props': props,
       properties,
     } = schema;
 
-    const node = new TreeNode(
-      {
-        id,
-        type: type,
-        title: title,
-        component: component,
-        props: props,
-      },
-      parent
-    );
+    const node = new TreeNode({ id, type, title, component, props }, parent);
     node.children = properties
       ? Object.keys(properties).map((id) => TreeNode.fromSchema(properties[id], id, node))
       : [];
@@ -64,11 +55,11 @@ export class TreeNode<P extends Record<string, any> = Record<string, any>> imple
     makeAutoObservable(this);
   }
 
-  id = '';
+  id: string;
   parent: TreeNode;
-  type = '';
-  title = '';
-  component = '';
+  type: string;
+  title: string;
+  component: string;
   props = {} as P;
   children: TreeNode[] = [];
 

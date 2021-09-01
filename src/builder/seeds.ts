@@ -4,21 +4,21 @@ export const defaultSchema: ISchema = {
   version: '1',
   type: 'object',
   properties: {
-    A: {
+    aaaaaa: {
       type: 'void',
       'x-component': 'Section',
       'x-component-props': {
         title: 'A. Structural Improvements',
       },
       properties: {
-        I: {
+        aaa001: {
           type: 'void',
           'x-component': 'Term',
           'x-component-props': {
             title: 'I. Term',
           },
         },
-        II: {
+        aaa002: {
           type: 'void',
           'x-component': 'Term',
           'x-component-props': {
@@ -27,14 +27,14 @@ export const defaultSchema: ISchema = {
         },
       },
     },
-    B: {
+    bbbbbb: {
       type: 'void',
       'x-component': 'Section',
       'x-component-props': {
         title: 'B. Roof',
       },
     },
-    C: {
+    cccccc: {
       type: 'void',
       'x-component': 'Section',
       'x-component-props': {
